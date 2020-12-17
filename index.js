@@ -44,7 +44,7 @@ function compile() {
         out_lat_div.innerHTML += str3
 
         modal = to_modal(simpl);
-        modal_rep = html_str_formula(modal).replace(new RegExp(html[lall], 'g'), '◻').replace(new RegExp(html[lexists], 'g'), '◇');
+        modal_rep = html_str_formula(modal).replace(new RegExp(html[lall], 'g'), '\u25a1').replace(new RegExp(html[lexists], 'g'), '◇');
 
         let str4 = "Modal formula: " + modal_rep + "\n";
         out_lat_div.innerHTML += str4;
