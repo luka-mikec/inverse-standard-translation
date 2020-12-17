@@ -448,10 +448,11 @@ function make_a_const(a_node, side, is_bisim_move)
         tr = str;
     let ret = (side === 0 ? "c" : 'd') + tr;
 
+    /*
     document.body.appendChild(document.createElement('br'));
     console.log('making a new const: ', ret, a_node, a_node.root.used_consts[0], a_node.root.used_consts[1]);
     document.body.appendChild(a_node.root.html_print());
-    document.body.appendChild(document.createElement('br'));
+    document.body.appendChild(document.createElement('br'));*/
 
     return ret;
 }
