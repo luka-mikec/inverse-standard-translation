@@ -437,17 +437,30 @@ function prop_solve(m /* node */) /*bool*/ {
 
 var global_ts = 0;
 
-function make_a_const(a_node, side)
+function make_a_const(a_node, side, is_bisim_move)
 {
-    let str = a_node.root.used_consts[side].length.toString();
-    let tr = str;
-    return (side === 0 ? "c" : 'd') + tr;
+
+    let str = (a_node.root.used_consts[side].length + a_node.root.used_consts[1 - side].length).toString();
+    let tr;
+    if (is_bisim_move)
+        tr = a_node.f[1 - side].vs[1].substring(1);
+    else
+        tr = str;
+    let ret = (side === 0 ? "c" : 'd') + tr;
+
+    document.body.appendChild(document.createElement('br'));
+    console.log('making a new const: ', ret, a_node, a_node.root.used_consts[0], a_node.root.used_consts[1]);
+    document.body.appendChild(a_node.root.html_print());
+    document.body.appendChild(document.createElement('br'));
+
+    return ret;
 }
 
 window.production = true;
 
 function draw_a_const(c)
 {
+    if (!c) return '%';
     let str = c.toString();
     let tr = c.substring(1).split('').map(ch => String.fromCharCode(  (window.production ? 0x2080 : '0'.codePointAt(0) )  +  ch.codePointAt(0) - '0'.codePointAt(0) ) );
     return c.substring(0, 1) + tr;
@@ -580,7 +593,7 @@ function tin_solve(m /* node */) /*bool*/ {
                 let new_consts = [];
                 let temp;
                 let newf = {rel: R, vs: R_vars.map(
-                    x  =>  x == z[side]  ?  z[other_side] : ((temp = make_a_const(lower_node, other_side)), new_consts.push(temp), temp)
+                    x  =>  x == z[side]  ?  z[other_side] : ((temp = make_a_const(lower_node, other_side, true)), new_consts.push(temp), temp)
                 )};
 
                 n.root.used_consts[other_side] = n.root.used_consts[other_side].concat(new_consts);
