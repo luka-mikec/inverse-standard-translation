@@ -43,6 +43,13 @@ function compile() {
         let str3 = "Simplified interim formula: " + html_str_formula(simpl).replace(/[cd]/g, 'x') + "\n";
         out_lat_div.innerHTML += str3
 
+        /*simpl = simplify(simpl);
+
+        str3 += "Simplified-2 interim formula: " + html_str_formula(simpl).replace(/[cd]/g, 'x') + "\n";
+        out_lat_div.innerHTML += str3*/
+
+
+
         modal = to_modal(simpl);
         modal_rep = html_str_formula(modal).replace(new RegExp(html[lall], 'g'), '\u25a1').replace(new RegExp(html[lexists], 'g'), '◇');
 

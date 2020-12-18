@@ -439,7 +439,6 @@ var global_ts = 0;
 
 function make_a_const(a_node, side, is_bisim_move)
 {
-
     let str = (a_node.root.used_consts[side].length + a_node.root.used_consts[1 - side].length).toString();
     let tr;
     if (is_bisim_move)
@@ -1058,8 +1057,27 @@ function fix_quantifiers(f, q, mother_obj, child_name) {
 
 function simplify(f) {
     let g = log_flatten(f)[0];
+    //console.log("flattened, not simplified", g);
     let meta = { e: g }
     fix_quantifiers(g, undefined, meta, 'e');
+    let unsolve = obj => {
+        if (obj) obj.solved = false;
+      if (obj.e) {
+          unsolve(obj.e);
+      }
+      if (obj.es) {
+          for (let e of obj.es) {
+              unsolve(e);
+          }
+      }
+    };
+    for (let i = 0; i < 100; ++i) {
+        // 100 iterations of simplification should suffice...
+        unsolve((meta.e));
+        fix_quantifiers(meta.e, undefined, meta, 'e');
+    }
+
+
     return meta.e;
 }
 
